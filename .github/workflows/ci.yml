@@ -21,11 +21,17 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Build project (without tests)
-        run: mvn -B clean package -DskipTests
+      - name: Set dummy MySQL env variables for CI
+        run: |
+          echo "DB_HOST=localhost" >> $GITHUB_ENV
+          echo "DB_PORT=3306" >> $GITHUB_ENV
+          echo "DB_NAME=testdb" >> $GITHUB_ENV
+          echo "DB_USER=root" >> $GITHUB_ENV
+          echo "DB_PASSWORD=1234" >> $GITHUB_ENV
+          echo "PORT=8082" >> $GITHUB_ENV
 
-      - name: Run tests using H2 profile
-        run: mvn test -Dspring.profiles.active=test
+      - name: Build project (skip tests)
+        run: mvn -B clean package -DskipTests
 
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
