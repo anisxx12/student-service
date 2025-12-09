@@ -19,10 +19,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: 'maven'   # Enables Maven dependency caching
-
-      - name: Validate Maven Wrapper
-        uses: gradle/actions/wrapper-validation@v3
+          cache: 'maven'
 
       - name: Build project (without tests)
         run: mvn -B clean package -DskipTests
